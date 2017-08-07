@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let a = ZipCode()
-        print(a.csvToArray(prefecture: "1")[0][6])
+        print(a.find(zipcode: "6038133")[0][6])
     }
 
     override func didReceiveMemoryWarning() {
