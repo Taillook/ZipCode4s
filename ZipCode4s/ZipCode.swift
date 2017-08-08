@@ -30,19 +30,16 @@ public class ZipCode {
 
     private func csv2Array(prefecture: String,zipcode: String) -> Array<String> {
         var csvArr: Array<String> = []
-        if let csvPath = Bundle.main.path(forResource: prefecture, ofType: "csv") {
-            do {
-                let csvStr = try String(contentsOfFile:csvPath, encoding:String.Encoding.utf8)
-                csvStr.enumerateLines { (line, stop) -> () in
-                    let item: [String] = line.components(separatedBy: ",")
-                    if (item[2] == zipcode) {
-                        csvArr = item
-                        stop = true
-                    }
-                }
-
-            } catch let error as NSError {
-                print(error.localizedDescription)
+        let bundlePath : String = Bundle.main.path(forResource: "resources", ofType: "bundle")!
+        let bundle : Bundle = Bundle(path: bundlePath)!
+        let imagePath : String = bundle.path(forResource: prefecture, ofType: "csv")!
+        let fileHandle : FileHandle = FileHandle(forReadingAtPath: imagePath)!
+        let data : String = String(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)!
+        data.enumerateLines { (line, stop) -> () in
+            let item: [String] = line.components(separatedBy: ",")
+            if (item[2] == zipcode) {
+                csvArr = item
+                stop = true
             }
         }
         return csvArr
