@@ -16,8 +16,8 @@ public class ZipCode {
     public var cityKana = ""
     public var town = ""
     public var townKana = ""
-    
-    init(zipcode: String) {
+
+    public init(zipcode: String) {
         let data = csv2Array(prefecture: zipcode2Pref(zipcode: zipcode),zipcode: zipcode)
         self.zipcode = data[2]
         self.prefecture = data[6]
@@ -27,7 +27,7 @@ public class ZipCode {
         self.town = data[8]
         self.townKana = data[5]
     }
-    
+
     private func csv2Array(prefecture: String,zipcode: String) -> Array<String> {
         var csvArr: Array<String> = []
         if let csvPath = Bundle.main.path(forResource: prefecture, ofType: "csv") {
@@ -47,7 +47,7 @@ public class ZipCode {
         }
         return csvArr
     }
-    
+
     private func zipcode2Pref(zipcode: String) -> String {
         var pref = "47"
         switch zipcode.substring(to:zipcode.index(zipcode.endIndex, offsetBy: -5)) {
