@@ -11,6 +11,7 @@ import Foundation
 public class ZipCode {
     public var zipcode = ""
     public var prefecture = ""
+    public var prefectureCode = ""
     public var prefectureKana = ""
     public var city = ""
     public var cityKana = ""
@@ -32,19 +33,37 @@ public class ZipCode {
         var csvArr: Array<String> = []
         //let bundlePath : String = Bundle.main.path(forResource: "resources", ofType: "bundle")!
         //let bundle : Bundle = Bundle(path: bundlePath)!
-        let imagePath : String = Bundle.main.path(forResource: prefecture, ofType: "csv")!
-        let fileHandle : FileHandle = FileHandle(forReadingAtPath: imagePath)!
-        let data : String = String(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)!
-        data.enumerateLines { (line, stop) -> () in
+        //let imagePath : String = Bundle.main.path(forResource: prefecture, ofType: "csv")!
+        //let fileHandle : FileHandle = FileHandle(forReadingAtPath: imagePath)!
+        //let data : String = String(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)!
+        
+        var str: String? = nil
+        DispatchQueue.global().async {
+            var request = URLRequest(url: URL(string: "https://raw.githubusercontent.com/Taillook/ZipCode4s/master/ZipCode4s/"+prefecture+".csv")!)
+            request.httpMethod = "GET"
+            let session = URLSession.shared
+            session.dataTask(with: request) {data, response, err in
+                str = String(data: data!, encoding: .utf8)!
+            }.resume()
+        }
+        
+        while true {
+            if str != nil {
+                break
+            }
+        }
+        
+        str!.enumerateLines { (line, stop) -> () in
             let item: [String] = line.components(separatedBy: ",")
             if (item[2] == zipcode) {
                 csvArr = item
                 stop = true
             }
         }
+        
         return csvArr
     }
-
+    
     private func zipcode2Pref(zipcode: String) -> String {
         var pref = "47"
         switch zipcode.substring(to:zipcode.index(zipcode.endIndex, offsetBy: -5)) {
@@ -150,6 +169,7 @@ public class ZipCode {
             case "99": pref = "6"
             default: print(zipcode.substring(to:zipcode.index(zipcode.endIndex, offsetBy: -5)))
         }
+        self.prefectureCode = pref
         return pref
     }
 }

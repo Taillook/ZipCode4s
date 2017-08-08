@@ -15,6 +15,7 @@ class ViewController: UIViewController {
         let a = ZipCode(zipcode: "1500043")
         print(a.zipcode)
         print(a.prefecture)
+        print(a.prefectureCode)
         print(a.prefectureKana)
         print(a.city)
         print(a.cityKana)
