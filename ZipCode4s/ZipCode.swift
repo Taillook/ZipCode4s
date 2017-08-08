@@ -8,18 +8,37 @@
 
 import Foundation
 
-open class ZipCode {
-    open func find(zipcode: String) -> Array<Array<String>> {
-        return csv2Array(prefecture: zipcode2Pref(zipcode: zipcode))
+public class ZipCode {
+    public var zipcode = ""
+    public var prefecture = ""
+    public var prefectureKana = ""
+    public var city = ""
+    public var cityKana = ""
+    public var town = ""
+    public var townKana = ""
+    
+    init(zipcode: String) {
+        let data = csv2Array(prefecture: zipcode2Pref(zipcode: zipcode),zipcode: zipcode)
+        self.zipcode = data[2]
+        self.prefecture = data[6]
+        self.prefectureKana = data[3]
+        self.city = data[7]
+        self.cityKana = data[4]
+        self.town = data[8]
+        self.townKana = data[5]
     }
     
-    open func csv2Array(prefecture: String) -> Array<Array<String>> {
-        var csvArr: Array<Array<String>> = []
+    private func csv2Array(prefecture: String,zipcode: String) -> Array<String> {
+        var csvArr: Array<String> = []
         if let csvPath = Bundle.main.path(forResource: prefecture, ofType: "csv") {
             do {
                 let csvStr = try String(contentsOfFile:csvPath, encoding:String.Encoding.utf8)
-                for i in csvStr.components(separatedBy: .newlines) {
-                    csvArr.append(i.components(separatedBy: ","))
+                csvStr.enumerateLines { (line, stop) -> () in
+                    let item: [String] = line.components(separatedBy: ",")
+                    if (item[2] == zipcode) {
+                        csvArr = item
+                        stop = true
+                    }
                 }
 
             } catch let error as NSError {
@@ -29,7 +48,7 @@ open class ZipCode {
         return csvArr
     }
     
-    open func zipcode2Pref(zipcode: String) -> String {
+    private func zipcode2Pref(zipcode: String) -> String {
         var pref = "47"
         switch zipcode.substring(to:zipcode.index(zipcode.endIndex, offsetBy: -5)) {
             case "04": pref = "1"

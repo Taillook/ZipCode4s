@@ -12,8 +12,14 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let a = ZipCode()
-        print(a.find(zipcode: "6038133")[0][6])
+        let a = ZipCode(zipcode: "1500043")
+        print(a.zipcode)
+        print(a.prefecture)
+        print(a.prefectureKana)
+        print(a.city)
+        print(a.cityKana)
+        print(a.town)
+        print(a.townKana)
     }
 
     override func didReceiveMemoryWarning() {
