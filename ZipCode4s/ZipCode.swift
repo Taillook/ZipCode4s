@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class ZipCode {
+public class ZipCode: CustomStringConvertible {
     public var zipcode = ""
     public var prefecture = ""
     public var prefectureCode = ""
@@ -17,6 +17,10 @@ public class ZipCode {
     public var cityKana = ""
     public var town = ""
     public var townKana = ""
+    
+    public var description: String{
+        return "\(zipcode)\n\(prefecture)\n\(city)\n\(town)"
+    }
 
     public init(zipcode: String) {
         let data = csv2Array(prefecture: zipcode2Pref(zipcode: zipcode),zipcode: zipcode)
@@ -51,7 +55,7 @@ public class ZipCode {
     
     private func zipcode2Pref(zipcode: String) -> String {
         var pref = "47"
-        switch zipcode.substring(to:zipcode.index(zipcode.endIndex, offsetBy: -5)) {
+        switch zipcode[..<zipcode.index(zipcode.endIndex, offsetBy: -5)] {
             case "04": pref = "1"
             case "05": pref = "1"
             case "06": pref = "1"
@@ -152,7 +156,7 @@ public class ZipCode {
             case "97": pref = "7"
             case "98": pref = "4"
             case "99": pref = "6"
-            default: print(zipcode.substring(to:zipcode.index(zipcode.endIndex, offsetBy: -5)))
+            default: print(zipcode[..<zipcode.index(zipcode.endIndex, offsetBy: -5)])
         }
         self.prefectureCode = pref
         return pref
