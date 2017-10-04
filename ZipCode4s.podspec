@@ -9,5 +9,6 @@ Pod::Spec.new do |s|
   s.source            = { :git => "https://github.com/Taillook/ZipCode4s.git", :tag => "0.0.7" }
   s.platform          = :ios, '10.2'
   s.requires_arc      = true
-  s.source_files      = 'ZipCode4s/*.{h,m,swift,csv}'
+  s.source_files      = 'ZipCode4s/*.{h,m,swift}'
+  s.resource          = 'ZipCode4s/*.csv'
 end

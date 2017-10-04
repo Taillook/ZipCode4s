@@ -31,44 +31,21 @@ public class ZipCode {
 
     private func csv2Array(prefecture: String,zipcode: String) -> Array<String> {
         var csvArr: Array<String> = []
-        /*let bundlePath : String = Bundle.main.path(forResource: "resources", ofType: "bundle")!
-        let bundle : Bundle = Bundle(path: bundlePath)!
-        let imagePath : String = bundle.path(forResource: prefecture, ofType: "csv")!
-        let fileHandle : FileHandle = FileHandle(forReadingAtPath: imagePath)!
-        let data : String = String(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)!
-        data.enumerateLines { (line, stop) -> () in
-            let item: [String] = line.components(separatedBy: ",")
-            if (item[2] == zipcode) {
-                csvArr = item
-                stop = true
-            }
-        }*/
-        /* I gave up. */
-        
-        var str: String? = nil
-        DispatchQueue.global().async {
-            var request = URLRequest(url: URL(string: "https://raw.githubusercontent.com/Taillook/ZipCode4s/master/ZipCode4s/"+prefecture+".csv")!)
-            request.httpMethod = "GET"
-            let session = URLSession.shared
-            session.dataTask(with: request) {data, response, err in
-                str = String(data: data!, encoding: .utf8)!
-            }.resume()
+        guard let csvPath = Bundle(for: ZipCode.self).path(forResource: prefecture, ofType: "csv"),
+            let fileHandle = FileHandle(forReadingAtPath: csvPath),
+            let data = String(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)
+            else {
+            return []
         }
-        
-        while true {
-            if str != nil {
-                break
-            }
-        }
-        
-        str!.enumerateLines { (line, stop) -> () in
+
+        data.enumerateLines { line, stop in
             let item: [String] = line.components(separatedBy: ",")
             if (item[2] == zipcode) {
                 csvArr = item
                 stop = true
             }
         }
-        
+
         return csvArr
     }
     
