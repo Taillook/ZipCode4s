@@ -2,7 +2,13 @@
 Swift library for manipulating postal codes.
 ## Installation
 ### CocoaPods
-`pod 'ZipCode4s'`
+```CocoaPods
+pod 'ZipCode4s'
+```
+### Cartfile
+```Cartfile
+github "akimach/SwiftNaiveBayes"
+````
 ## Usage
 ### code
 ```swift
