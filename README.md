@@ -7,7 +7,7 @@ pod 'ZipCode4s'
 ```
 ### Cartfile
 ```Cartfile
-github "akimach/SwiftNaiveBayes"
+github "Taillook/ZipCode4s"
 ````
 ## Usage
 ### code
