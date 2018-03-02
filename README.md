@@ -18,15 +18,15 @@ github "Taillook/ZipCode4s"
 
 ```swift
 import ZipCode4s
-let a = ZipCode(zipcode: "1500043")
+let addrInfo = ZipCode(zipcode: "1500043")
 
-print(a.zipcode)
-print(a.prefecture)
-print(a.prefectureKana)
-print(a.city)
-print(a.cityKana)
-print(a.town)
-print(a.townKana)
+print(addrInfo.zipcode)
+print(addrInfo.prefecture)
+print(addrInfo.prefectureKana)
+print(addrInfo.city)
+print(addrInfo.cityKana)
+print(addrInfo.town)
+print(addrInfo.townKana)
 ```
 
 ### result
