@@ -23,14 +23,38 @@ public class ZipCode: CustomStringConvertible {
     }
 
     public init(zipcode: String) {
-        let data = csv2Array(prefecture: zipcode2Pref(zipcode: zipcode),zipcode: zipcode)
-        self.zipcode = data[2]
-        self.prefecture = data[6]
-        self.prefectureKana = data[3]
-        self.city = data[7]
-        self.cityKana = data[4]
-        self.town = data[8]
-        self.townKana = data[5]
+        let pref = zipcode2Pref(zipcode: zipcode)
+        if pref == "error" {
+            self.prefectureCode = pref
+            self.zipcode = "error"
+            self.prefecture = "error"
+            self.prefectureKana = "error"
+            self.city = "error"
+            self.cityKana = "error"
+            self.town = "error"
+            self.townKana = "error"
+        } else {
+            let data = csv2Array(prefecture: pref,zipcode: zipcode)
+            if data == [] {
+                self.prefectureCode = "error"
+                self.zipcode = "error"
+                self.prefecture = "error"
+                self.prefectureKana = "error"
+                self.city = "error"
+                self.cityKana = "error"
+                self.town = "error"
+                self.townKana = "error"
+            } else {
+                self.prefectureCode = pref
+                self.zipcode = data[2]
+                self.prefecture = data[6]
+                self.prefectureKana = data[3]
+                self.city = data[7]
+                self.cityKana = data[4]
+                self.town = data[8]
+                self.townKana = data[5]
+            }
+        }
     }
 
     private func csv2Array(prefecture: String,zipcode: String) -> Array<String> {
@@ -39,8 +63,8 @@ public class ZipCode: CustomStringConvertible {
             let fileHandle = FileHandle(forReadingAtPath: csvPath),
             let data = String(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)
             else {
-            return []
-        }
+                return []
+            }
 
         data.enumerateLines { line, stop in
             let item: [String] = line.components(separatedBy: ",")
@@ -156,9 +180,8 @@ public class ZipCode: CustomStringConvertible {
             case "97": pref = "7"
             case "98": pref = "4"
             case "99": pref = "6"
-            default: print(zipcode[..<zipcode.index(zipcode.endIndex, offsetBy: -5)])
+            default: pref = "error"
         }
-        self.prefectureCode = pref
         return pref
     }
 }
