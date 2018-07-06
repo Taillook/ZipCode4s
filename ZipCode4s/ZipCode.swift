@@ -117,7 +117,6 @@ public class ZipCode: CustomStringConvertible {
             case "35": pref = "11"
             case "36": pref = "11"
             case "37": pref = "10"
-            case "37": pref = "20"
             case "38": pref = "20"
             case "39": pref = "20"
             case "40": pref = "19"

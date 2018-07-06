@@ -12,6 +12,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let start = Date()
         let addrInfo = ZipCode(zipcode: "1500043")
         print(addrInfo.zipcode)
         print(addrInfo.prefecture)
@@ -21,6 +22,8 @@ class ViewController: UIViewController {
         print(addrInfo.cityKana)
         print(addrInfo.town)
         print(addrInfo.townKana)
+        let elapsed = Date().timeIntervalSince(start)
+        print(elapsed)
     }
 
     override func didReceiveMemoryWarning() {
